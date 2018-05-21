@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fibonacciClient/fibonacciClient.iml" filepath="$PROJECT_DIR$/fibonacciClient/fibonacciClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fibonacciCommon/fibonacciCommon.iml" filepath="$PROJECT_DIR$/fibonacciCommon/fibonacciCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fibonacciService/fibonacciService.iml" filepath="$PROJECT_DIR$/fibonacciService/fibonacciService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xx.iml" filepath="$PROJECT_DIR$/xx.iml" />
+    </modules>
+  </component>
+</project>

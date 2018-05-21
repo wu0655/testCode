@@ -1,0 +1,4 @@
+include ':app'
+include ':fibonacciCommon'
+include ':fibonacciClient'
+include ':fibonacciService'

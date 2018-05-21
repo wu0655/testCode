@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.marakana.android.fibonacciservice"
+        minSdkVersion 24
+        targetSdkVersion 24
+
+        ndk {
+            moduleName "com_marakana_android_fibonaccinative_FibLib"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':fibonacciCommon')
+}
