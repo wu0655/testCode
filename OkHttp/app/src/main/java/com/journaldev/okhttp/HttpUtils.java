@@ -31,7 +31,9 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -59,6 +61,8 @@ public class HttpUtils {
 
     public static final String CONTENT_TYPE_JSON = "application/json; charset=utf-8";
     public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType MEDIA_TYPE_ZIP = MediaType.parse("application/zip");
+
     public static final String CONTENT_TYPE_FILE = "multipart/form-data";
     public static final MediaType MEDIA_TYPE_FILE = MediaType.parse(CONTENT_TYPE_FILE);
 
@@ -70,9 +74,18 @@ public class HttpUtils {
 
 
     public static void postRequestFile(File file) throws IOException {
-        OkHttpClient client = HttpUtils.createOkHttpClient();
+        OkHttpClient client = HttpUtils.createOkHttpClient(HttpLoggingInterceptor.Level.HEADERS);
 
-        RequestBody body = RequestBody.create(MEDIA_TYPE_FILE, file);
+
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+
+        final MediaType MEDIA_TYPE = MEDIA_TYPE_ZIP;
+        builder.addFormDataPart("file",file.getName(),RequestBody.create(MEDIA_TYPE,file));
+
+        RequestBody body = builder.build();
+
+        //RequestBody body = RequestBody.create(MEDIA_TYPE_FILE, file);
         Request request = HttpUtils.createrRequest(FILE_UPLOAD_URL, body);
 
         /*
@@ -92,14 +105,14 @@ public class HttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d(TAG, "onResponse");
-                //String s = response.body().string();
-                //Log.d(TAG, s);
+                String s = response.body().string();
+                Log.d(TAG, s);
             }
         });
     }
 
     public static void postRequestJson(JSONObject json) throws IOException {
-        OkHttpClient client = HttpUtils.createOkHttpClient();
+        OkHttpClient client = HttpUtils.createOkHttpClient(HttpLoggingInterceptor.Level.BODY);
         String postBody = json.toString();
 
         Log.d(TAG, "postBody lenght = " + postBody.length());
@@ -130,13 +143,17 @@ public class HttpUtils {
         });
     }
     public static OkHttpClient createOkHttpClient() {
+        return createOkHttpClient(HttpLoggingInterceptor.Level.BODY);
+    }
+
+    public static OkHttpClient createOkHttpClient(HttpLoggingInterceptor.Level level) {
         /*
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor()).build();
         return client;
         */
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logging.setLevel(level);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build();

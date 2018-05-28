@@ -21,6 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public class OkHttpHandler extends AsyncTask<String, Void, String> {
 
-        OkHttpClient client = HttpUtils.createOkHttpClient();
+        OkHttpClient client = HttpUtils.createOkHttpClient(HttpLoggingInterceptor.Level.BODY);
 
         @Override
         protected String doInBackground(String... params) {
@@ -193,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public class OkHttpFileUpload extends AsyncTask<String, Void, String> {
 
-        OkHttpClient client = HttpUtils.createOkHttpClient();
+        OkHttpClient client = HttpUtils.createOkHttpClient(HttpLoggingInterceptor.Level.BODY);
 
         @Override
         protected String doInBackground(String... params) {
