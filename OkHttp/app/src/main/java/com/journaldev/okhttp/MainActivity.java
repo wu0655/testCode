@@ -1,6 +1,8 @@
 package com.journaldev.okhttp;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.DropBoxManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    private Context mContext;
     TextView txtString;
     Button asynchronousGet, synchronousGet, asynchronousPOST;
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mContext = getApplicationContext();
 
         asynchronousGet = (Button) findViewById(R.id.asynchronousGet);
         synchronousGet = (Button) findViewById(R.id.synchronousGet);
@@ -131,8 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.synchronousGet:
-                OkHttpHandler okHttpHandler = new OkHttpHandler();
-                okHttpHandler.execute(url);
+                //OkHttpHandler okHttpHandler = new OkHttpHandler();
+                //okHttpHandler.execute(url);
+
+                final DropBoxManager dropbox = (DropBoxManager) mContext.getSystemService(Context.DROPBOX_SERVICE);
+                dropbox.addText("BBOX_TEST", "IT'S A TEST");
+                Log.d("BBOX_TEST", "TEST ADD DROPBOX");
                 break;
             case R.id.asynchronousPost:
                 /*
